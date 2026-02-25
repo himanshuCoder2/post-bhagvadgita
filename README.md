@@ -1,63 +1,69 @@
-# ⚡ TanStack Query Demo — TypeScript + React
+# ⚡ Post Bhagavad Gita
 
-## 🚀 Kaise Chalao
+A demo project built with React, TypeScript, TanStack Query v5, and Redux Toolkit.
 
-```bash
-# 1. Dependencies install karo
-npm install
-
-# 2. Dev server start karo
-npm run dev
-
-# 3. Browser mein kholo
-# http://localhost:5173
-```
-
-## 📁 Project Structure
-
-```
-src/
-├── types/
-│   └── index.ts          # TypeScript types (Post, User etc.)
-├── api/
-│   └── posts.ts          # Fetch functions (fetchPosts, createPost etc.)
-├── hooks/
-│   └── usePosts.ts       # Custom hooks (usePosts, useCreatePost etc.)
-├── components/
-│   ├── PostsList.tsx     # Posts list + delete + edit
-│   ├── CreatePost.tsx    # New post form (useMutation)
-│   ├── PostDetail.tsx    # Single post (dynamic queryKey)
-│   └── PaginatedPosts.tsx # Pagination (keepPreviousData)
-├── App.tsx               # Main app with tabs
-├── main.tsx              # Entry point (QueryClientProvider)
-└── index.css             # Styles
-```
-
-## 🎯 Kya Kya Sikha
-
-| Feature | File |
-|---------|------|
-| `useQuery` — basic fetch | `PostsList.tsx` |
-| `useMutation` — POST | `CreatePost.tsx` |
-| `useMutation` — DELETE with Optimistic Update | `PostsList.tsx` |
-| `useMutation` — PUT/update | `PostsList.tsx` |
-| Dynamic queryKey `['posts', id]` | `PostDetail.tsx` |
-| Dependent queries (`enabled`) | `PostDetail.tsx` |
-| `keepPreviousData` — smooth pagination | `PaginatedPosts.tsx` |
-| Custom hooks (best practice) | `hooks/usePosts.ts` |
-| Centralized query keys | `hooks/usePosts.ts` |
-| `invalidateQueries` vs `setQueryData` | `hooks/usePosts.ts` |
-| TanStack Query DevTools | `main.tsx` |
-
-## 🛠️ DevTools
-
-App chalao aur bottom-right corner mein TanStack logo dikhega.
-Uspe click karo aur poora cache status dekho — kaafi helpful hai!
+---
 
 ## 📦 Dependencies
 
-- `@tanstack/react-query` v5 — main library
-- `@tanstack/react-query-devtools` v5 — debugging
-- `react` + `react-dom` v18
-- `typescript` v5
-- `vite` v5
+| Package | Version | Purpose |
+|---------|---------|---------|
+| `@tanstack/react-query` | v5 | Core data fetching and caching |
+| `@tanstack/react-query-devtools` | v5 | Cache inspection during development |
+| `@reduxjs/toolkit` | latest | Global client-side state management |
+| `react-redux` | latest | React bindings for Redux |
+| `react` | v18 | UI framework |
+| `react-dom` | v18 | React DOM renderer |
+| `typescript` | v5 | Static type checking |
+| `vite` | v5 | Development build tool |
+
+---
+
+## 🔄 Module Flow
+```
+main.tsx
+├── Redux Provider          (wraps entire app — global client state)
+│   └── QueryClientProvider (wraps entire app — server state + caching)
+│       └── App.tsx
+│           ├── ConceptSlider     (auto-sliding feature cards)
+│           ├── Tab Navigation    (Redux manages active tab)
+│           │
+│           ├── PostsList.tsx
+│           │   └── hooks/usePosts.ts → api/posts.ts → JSONPlaceholder API
+│           │
+│           ├── CreatePost.tsx
+│           │   └── hooks/usePosts.ts → api/posts.ts → JSONPlaceholder API
+│           │
+│           ├── PostDetail.tsx
+│           │   └── hooks/usePosts.ts → api/posts.ts → JSONPlaceholder API
+│           │
+│           ├── PaginatedPosts.tsx
+│           │   └── hooks/usePosts.ts → api/posts.ts → JSONPlaceholder API
+│           │
+│           ├── GitaSection.tsx
+│           │   ├── store/slices/uiSlice.ts  (chapter, verse, language)
+│           │   └── hooks/usePosts.ts → api/posts.ts → Vedic Scriptures API
+│           │
+│           ├── CoffeeSection.tsx
+│           │   └── Picsum Photos API (no cache)
+│           │
+│           └── Toast.tsx
+│               └── store/slices/toastSlice.ts (global notifications)
+│
+store/
+├── index.ts           (root Redux store)
+├── hooks.ts           (typed useAppDispatch + useAppSelector)
+└── slices/
+    ├── uiSlice.ts     (activeTab, gitaLang, selectedChapter, selectedVerse)
+    └── toastSlice.ts  (toasts array — add/remove)
+```
+
+---
+
+## 🚀 Getting Started
+```bash
+npm install
+npm run dev
+```
+
+Open `http://localhost:5173` in your browser.
